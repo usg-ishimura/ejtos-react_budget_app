@@ -1,8 +1,23 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../context/AppContext';
+import { AppContext, initialState } from '../context/AppContext';
 const Budget = () => {
     const { budget, dispatch } = useContext(AppContext);
     const { expenses, currency } = useContext(AppContext);
+	React.useEffect(() => {
+		const json = localStorage.getItem("budget");
+		const loadedBudget = JSON.parse(json);
+		if(loadedBudget !== initialState.budget){
+			dispatch({type: 'SET_BUDGET', payload: loadedBudget});
+			console.log("local storage loaded budget: "+loadedBudget);
+		}
+	}, [dispatch]);
+	React.useEffect(() => {
+		const json = JSON.stringify(budget);
+		if(json !== initialState.budget.toString()){
+			localStorage.setItem("budget", json);
+			console.log("local storage set budget: "+json);
+		}
+	}, [budget]);
     const totalExpenses = expenses.reduce((total, item) => {
         return (total += item.cost);
     }, 0);

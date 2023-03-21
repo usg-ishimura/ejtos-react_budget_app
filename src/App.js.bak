@@ -14,10 +14,20 @@ import Location from './components/Location';
 
 
 import { AppProvider } from './context/AppContext';
-
+// Store
+import { store } from './store';
+import { saveState } from './localStorage';
+ 
+store.subscribe(() => {
+  saveState({
+    budget: store.getState().budget,
+    expenses: store.getState().expenses,
+    currency: store.getState().currency
+  });
+});
 const App = () => {
     return (
-        <AppProvider>
+        <AppProvider store={store}>
             <div className='container'>
                 <h1 className='mt-3'>Company's Budget Allocation</h1>
                     <div className='row mt-3'>

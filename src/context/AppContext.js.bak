@@ -98,11 +98,22 @@ export var initialState = () => {
         { id: "Admin", name: 'Admin', cost: 400 }
     ],
     currency: '£'};
-
-	var localBudget = JSON.parse(localStorage.getItem("budget"));
-    var localExpenses = JSON.parse(localStorage.getItem("expenses"));
-	var localCurrency = JSON.parse(localStorage.getItem("currency"));
-
+	var localBudget = false;
+	var localExpenses = [];
+	var localCurrency = false;
+	try {
+		localBudget = JSON.parse(localStorage.getItem("budget"));
+	} catch(e) {
+		console.log(e);
+	} try {
+		localExpenses = JSON.parse(localStorage.getItem("expenses"));
+	} catch(e) {
+		console.log(e);
+	} try {
+		localCurrency = JSON.parse(localStorage.getItem("currency"));
+	} catch(e) {
+		console.log(e);
+	}
 	if(localBudget !== is.budget && localBudget) is.budget = localBudget;
 	if(!objectsAreSame(localExpenses, is.expenses) && localExpenses.length !== 0) is.expenses = localExpenses;
 	if(localCurrency !== is.currency && localCurrency) is.currency = localCurrency;
